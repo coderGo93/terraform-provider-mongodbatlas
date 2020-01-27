@@ -68,6 +68,7 @@ func Provider() terraform.ResourceProvider {
 			"mongodbatlas_private_ip_mode":                     resourceMongoDBAtlasPrivateIPMode(),
 			"mongodbatlas_maintenance_window":                  resourceMongoDBAtlasMaintenanceWindow(),
 			"mongodbatlas_auditing":                            resourceMongoDBAtlasAuditing(),
+			"mongodbatlas_private_endpoint":                    resourceMongoDBAtlasPrivateEndpoint(),
 		},
 
 		ConfigureFunc: providerConfigure,
