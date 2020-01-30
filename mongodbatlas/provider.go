@@ -52,6 +52,8 @@ func Provider() terraform.ResourceProvider {
 			"mongodbatlas_cloud_provider_snapshot_restore_jobs": dataSourceMongoDBAtlasCloudProviderSnapshotRestoreJobs(),
 			"mongodbatlas_maintenance_window":                   dataSourceMongoDBAtlasMaintenanceWindow(),
 			"mongodbatlas_auditing":                             dataSourceMongoDBAtlasAuditing(),
+			"mongodbatlas_private_endpoint":                     dataSourceMongoDBAtlasPrivateEndpoint(),
+			"mongodbatlas_private_endpoint_link":                dataSourceMongoDBAtlasPrivateEndpointLink(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -69,6 +71,7 @@ func Provider() terraform.ResourceProvider {
 			"mongodbatlas_maintenance_window":                  resourceMongoDBAtlasMaintenanceWindow(),
 			"mongodbatlas_auditing":                            resourceMongoDBAtlasAuditing(),
 			"mongodbatlas_private_endpoint":                    resourceMongoDBAtlasPrivateEndpoint(),
+			"mongodbatlas_private_endpoint_link":               resourceMongoDBAtlasPrivateEndpointLink(),
 		},
 
 		ConfigureFunc: providerConfigure,
