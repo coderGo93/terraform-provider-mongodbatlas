@@ -53,7 +53,7 @@ func Provider() terraform.ResourceProvider {
 			"mongodbatlas_maintenance_window":                   dataSourceMongoDBAtlasMaintenanceWindow(),
 			"mongodbatlas_auditing":                             dataSourceMongoDBAtlasAuditing(),
 			"mongodbatlas_private_endpoint":                     dataSourceMongoDBAtlasPrivateEndpoint(),
-			"mongodbatlas_private_endpoint_link":                dataSourceMongoDBAtlasPrivateEndpointLink(),
+			"mongodbatlas_private_endpoint_interface_link":      dataSourceMongoDBAtlasPrivateEndpointInterfaceLink(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -71,7 +71,7 @@ func Provider() terraform.ResourceProvider {
 			"mongodbatlas_maintenance_window":                  resourceMongoDBAtlasMaintenanceWindow(),
 			"mongodbatlas_auditing":                            resourceMongoDBAtlasAuditing(),
 			"mongodbatlas_private_endpoint":                    resourceMongoDBAtlasPrivateEndpoint(),
-			"mongodbatlas_private_endpoint_link":               resourceMongoDBAtlasPrivateEndpointLink(),
+			"mongodbatlas_private_endpoint_interface_link":     resourceMongoDBAtlasPrivateEndpointInterfaceLink(),
 		},
 
 		ConfigureFunc: providerConfigure,
