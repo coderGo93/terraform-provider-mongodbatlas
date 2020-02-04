@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"strings"
+	"regexp"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -217,15 +217,9 @@ func resourceCloudProviderSnapshotRefreshFunc(requestParameters *matlas.Snapshot
 func resourceMongoDBAtlasCloudProviderSnapshotImportState(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
 	conn := meta.(*matlas.Client)
 
-	parts := strings.SplitN(d.Id(), "-", 3)
-	if len(parts) != 3 {
-		return nil, errors.New("import format error: to import a snapshot, use the format {project_id}-{cluster_name}-{snapshot_id}")
-	}
-
-	requestParameters := &matlas.SnapshotReqPathParameters{
-		GroupID:     parts[0],
-		ClusterName: parts[1],
-		SnapshotID:  parts[2],
+	requestParameters, err := splitSnapshotImportID(d.Id())
+	if err != nil {
+		return nil, err
 	}
 
 	u, _, err := conn.CloudProviderSnapshots.GetOneCloudProviderSnapshot(context.Background(), requestParameters)
@@ -250,4 +244,20 @@ func resourceMongoDBAtlasCloudProviderSnapshotImportState(d *schema.ResourceData
 	}
 
 	return []*schema.ResourceData{d}, nil
+}
+
+func splitSnapshotImportID(ID string) (*matlas.SnapshotReqPathParameters, error) {
+	var re = regexp.MustCompile(`(?s)^([0-9a-fA-F]{24})-(.*)-([0-9a-fA-F]{24})$`)
+
+	parts := re.FindStringSubmatch(ID)
+
+	if len(parts) != 4 {
+		return nil, errors.New("import format error: to import a snapshot, use the format {project_id}-{cluster_name}-{snapshot_id}")
+	}
+
+	return &matlas.SnapshotReqPathParameters{
+		GroupID:     parts[1],
+		ClusterName: parts[2],
+		SnapshotID:  parts[3],
+	}, nil
 }
